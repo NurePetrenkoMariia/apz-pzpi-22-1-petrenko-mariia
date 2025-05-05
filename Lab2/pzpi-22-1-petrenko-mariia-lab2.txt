@@ -1,1 +1,268 @@
+﻿Харківський університет радіоелектроніки
+Факультет комп'ютерних наук
+Катедра програмної інженерії
 
+
+
+ЗВІТ
+з лабораторної роботи № 2
+з дисципліни «Архітектура програмного забезпечення»
+на тему: «ДОРОБЛЕННЯ СЕРВЕРНОЇ ЧАСТИНИ СИСТЕМИ»
+
+
+
+
+
+
+Виконала ст. гр ПЗПІ-22-1
+Петренко Марія Олександрівна
+
+    Перевірив
+    ст. викладач катедри ПІ
+    Сокорчук Ігор Петрович
+
+
+
+
+
+
+
+Харків 2025
+1 ІСТОРІЯ ЗМІН 
+№Дата Версія звітуОпис змін та виправлень122.04.20250.1 Створено звіт по шаблону.205.05.20250.2Додано діаграми та фрагменти коду. 
+2 ЗАВДАННЯ
+     Доробити серверну частину системи, а саме: математичну обробку даних та функції адміністрування системи. 
+3 ОПИС ВИКОНАНОЇ РОБОТИ
+     Під час виконання лабораторної роботи була використана серверна частина, що була розроблена в минулому семестрі. Код до неї був написаний на мові програмування С# з використанням ASP .NET Core Web API. Вибір було зроблено саме на цій мові програмування, оскільки платформа .NET характеризується високим рівнем продуктивності та широкими можливостями для роботи з базою даних. 
+     Архітектура розробленої серверної частини є тришаровою, тому що містить: шар представлення (контроллери), шар прикладної логіки (репозиторії та сервіси) та шар роботи з даними (моделі). 
+     Посилання на відеозапис знаходиться в додатку А.
+     ER-діаграма наведена в додатку Б на рисунку Б.1. Структура бази даних наведена на діаграмі в додатку Б на рисунку Б.2. UML-діаграма прецедентів знаходиться на рисунку Б.3, а діаграма розгортання на рисунку Б.4.
+     В якості математичної обробки даних реалізовано механізм розподілу завдань між робітниками. Розподіл відбувається за таким принципом: робітники сортуються за кількістю вже існуючих у них завдань, а якщо кількість завдань однакова, то далі сортуються за кількістю завдань з найвищим пріоритетом. Далі для кожного завдання враховується кількість робітників, які необхідні для виконання цього завдання і за принципом кругового обходу, із врахуванням вже призначених завдань, щоб уникнути перевантаження, обираються працівники. Після цього всі значення зберігаються в таблицю UserTasks. Програмний код для цього методу наведений в додатку В.1.
+     Адміністратор системи має доступ до всіх даних, що знаходяться в базі даних. Інші ж користувачі бачать лише те, що належить до них самих, або до їхньої ферми. Контроль доступу здійснюється на основі ролей користувачів. Рядки коду такого адміністрування бізнес-логіки на прикладі контролера для завдань наведено в додатку В.2. 
+     Також для адміністратора системи передбачено функціонал створення резервної копії даних та відновлення бази даних по цій резервній копії. Фрагмент коду для створення резервної копії бази даних знаходиться в додатку В.3.
+4 ВИСНОВКИ
+     У результаті виконання лабораторної роботи було покращено серверну частину програмної системи, що була розроблена в минулому семестрі. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Додаток А 
+ВІДЕОЗАПИС
+     Відеозапис презентації результатів лабораторної роботи: https://youtu.be/rVaZ8h5ITr4 
+     
+     Хронологічний опис відеозапису:
+     
+     00:00 - Вступ
+     00:24 - Демонстрація покращення системи доступу до даних за ролями користувачів 
+     02:27 - Висновки щодо реалізованого функціоналу контролю доступом 
+     03:14 - Пояснення математичної обробки даних
+     05:15 - Демонстрація роботи розподілу завдань між працівниками
+     07:26 - Створення резервної копії даних
+     08:29 - Відновлення бази даних з резервної копії
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Додаток Б
+ГРАФІЧНІ МАТЕРІАЛИ
+
+Рисунок Б.1 — ER-діаграма даних
+
+Рисунок Б.2 — Структура бази даних
+
+Рисунок Б.3 — UML-діаграма прецедентів
+
+Рисунок Б.4 — Діаграма розгортання
+
+
+
+
+
+
+Додаток В
+ПРОГРАМНИЙ КОД
+В.1 Математична обробка прикладних даних
+
+Репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab2/pzpi-22-1-petrenko-mariia-lab2-code/Controllers/TaskAssignmentController.cs
+
+1 public async Task<List<UserTask>> AssignTasks(List<User> workers, List<Assignment> assignments)
+2         {
+3             var userTasks = new List<UserTask>();
+4 
+5             var sortedWorkers = workers
+6                 .OrderBy(w => dbContext.UserTasks.Count(ut => ut.UserId == w.Id)) 
+7                 .ThenBy(w => dbContext.UserTasks.Count(ut => ut.UserId == w.Id && ut.Assignment.Priority == Priority.High)) 
+8                 .ToList();
+9 
+10             if (sortedWorkers.Count == 0)
+11             {
+12                 throw new InvalidOperationException("No workers available to assign tasks.");
+13             }
+14 
+15             int workerIndex = 0;
+16             var notStartedAssignments = dbContext.UserTasks
+17                 .Where(ut => ut.Assignment.Status == Status.NotStarted)
+18                 .ToList();
+19 
+20             dbContext.UserTasks.RemoveRange(notStartedAssignments);
+21             dbContext.SaveChanges();
+22             
+23             foreach (var assignment in assignments)
+24             {
+25                 var numberOfParticipants = assignment.NumberOfParticipants;
+26 
+27                 var assignedWorkers = new List<User>();
+28 
+29                 for (int i = 0; i < numberOfParticipants; i++)
+30                 {
+31                     var worker = sortedWorkers[workerIndex];
+32 
+33                     
+34                     if (!userTasks.Any(ut => ut.UserId == worker.Id && ut.AssignmentId == assignment.Id))
+35                     {
+36                         assignedWorkers.Add(worker);
+37                         userTasks.Add(new UserTask
+38                         {
+39                             Id = Guid.NewGuid(),
+40                             UserId = worker.Id,
+41                             AssignmentId = assignment.Id
+42                    
+43                         });
+44                     }
+45 
+46                     workerIndex = (workerIndex + 1) % sortedWorkers.Count;
+47                 }
+48 
+49                 if (assignedWorkers.Count < numberOfParticipants)
+50                 {
+51                     workerIndex = 0; 
+52                 }
+53             }
+54             return userTasks;
+55         } 
+
+В.2 Адміністрування бізнес-логіки системи
+
+Репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab2/pzpi-22-1-petrenko-mariia-lab2-code/Controllers/AssignmentsController.cs 
+
+1 [HttpGet]
+2 [Authorize(Roles = "Owner,Worker,Admin,DatabaseAdmin")]
+3  public async Task<IActionResult> GetAll()
+4  {
+5       var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+6             var userRole = User.FindFirstValue(ClaimTypes.Role);
+7 
+8 
+9             List<Assignment> assignmentDomain = new();
+10             if (userRole == nameof(UserRole.DatabaseAdmin))
+11             {
+12                 assignmentDomain = await assignmentRepository.GetAllAsync();
+13             }
+14 
+15             else if (userRole == nameof(UserRole.Owner))
+16             {
+17                 var ownerId = Guid.Parse(userId);
+18                 var farms = await farmRepository.GetFarmsByOwnerIdAsync(ownerId);
+19                 var farmIds = farms.Select(f => f.Id).ToList();
+20 
+21                 assignmentDomain = await assignmentRepository.GetAllAsync();
+22                 assignmentDomain = assignmentDomain
+23                     .Where(a => farmIds.Contains(a.FarmId))
+24                     .ToList();
+25             }
+26             else if (userRole == nameof(UserRole.Admin))
+27             {
+28                 var adminId = Guid.Parse(userId);
+29                 var farm = await farmRepository.GetFarmByAdminIdAsync(adminId);
+30 
+31                 if (farm != null)
+32                 {
+33                     assignmentDomain = await assignmentRepository.GetAllAsync();
+34                     assignmentDomain = assignmentDomain
+35                         .Where(a => a.FarmId == farm.Id)
+36                         .ToList();
+37                 }
+38             }
+39 
+40             else if (userRole == nameof(UserRole.Worker))
+41             {
+42                 var workerId = Guid.Parse(userId);
+43 
+44                 var userTasks = await userTaskRepository.GetByUserIdAsync(workerId);
+45                 var assignmentIds = userTasks.Select(ut => ut.AssignmentId).ToList();
+46                 assignmentDomain = await assignmentRepository.GetByIdsAsync(assignmentIds);
+47             }
+48          
+49             var assignmentDto = assignmentDomain.Select(a => a.ToAssignmentDto());
+50             return Ok(assignmentDto);
+51         }
+
+В.3 Резервне копіювання користувацьких даних
+
+Репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab2/pzpi-22-1-petrenko-mariia-lab2-code/Controllers/BackupController.cs 
+
+1 [HttpGet("download-backup")]
+2 [Authorize(Roles = "DatabaseAdmin")]
+3 public async Task<IActionResult> DownloadBackup()
+4 {
+5            
+6     string downloadPath = @"C:\Backup";
+7     if (!Directory.Exists(downloadPath))
+8     {
+9         Directory.CreateDirectory(downloadPath);
+10    }
+11 
+12             string backupFilePath = Path.Combine(downloadPath, "FarmKeeperDatabaseBackup.bak");
+13 
+14    try
+15    {
+16      using (var connection = new SqlConnection(connectionString))
+17                 {
+18                     await connection.OpenAsync();
+19                     string query = $@"
+20                     BACKUP DATABASE [FarmKeeperDb]
+21                     TO DISK = @BackupPath
+22                     WITH FORMAT, INIT;";
+23 
+24                     using (var command = new SqlCommand(query, connection))
+25                     {
+26                         command.Parameters.AddWithValue("@BackupPath", backupFilePath);
+27                         await command.ExecuteNonQueryAsync();
+28                     }
+29                 }
+30 
+31                 var memoryStream = new MemoryStream(await System.IO.File.ReadAllBytesAsync(backupFilePath));
+32                 return File(memoryStream, "application/octet-stream", "DatabaseBackup.bak");
+33             }
+34             catch (Exception ex)
+35             {
+36                 return StatusCode(500, $"Error creating backup: {ex.Message}");
+37             }
+38 
+39         }
+
+      12
+      
+      
