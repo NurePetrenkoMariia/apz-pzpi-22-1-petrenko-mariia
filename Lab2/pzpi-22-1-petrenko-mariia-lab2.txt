@@ -117,7 +117,7 @@
 ПРОГРАМНИЙ КОД
 В.1 Математична обробка прикладних даних
 
-Репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab2/pzpi-22-1-petrenko-mariia-lab2-code/Controllers/TaskAssignmentController.cs
+Репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab2/pzpi-22-1-petrenko-mariia-lab2-code/Service/TaskAssignmentService.cs
 
 1 public async Task<List<UserTask>> AssignTasks(List<User> workers, List<Assignment> assignments)
 2         {
