@@ -29,8 +29,10 @@ namespace FarmKeeper.Service
             }
 
             int workerIndex = 0;
+            var assignmentIds = assignments.Select(a => a.Id).ToList();
+
             var notStartedAssignments = dbContext.UserTasks
-                .Where(ut => ut.Assignment.Status == Status.NotStarted)
+                .Where(ut => assignmentIds.Contains(ut.AssignmentId) && ut.Assignment.Status == Status.NotStarted)
                 .ToList();
 
             dbContext.UserTasks.RemoveRange(notStartedAssignments);
