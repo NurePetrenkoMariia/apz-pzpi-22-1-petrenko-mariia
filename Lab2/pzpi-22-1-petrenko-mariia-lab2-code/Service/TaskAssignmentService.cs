@@ -29,6 +29,7 @@ namespace FarmKeeper.Service
             }
 
             int workerIndex = 0;
+
             var assignmentIds = assignments.Select(a => a.Id).ToList();
 
             var notStartedAssignments = dbContext.UserTasks
