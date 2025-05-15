@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './FarmsPage.css'
+import './FarmsPage.css';
+import { useTranslation } from 'react-i18next';
 
 function FarmsPage({ token, onSelectFarm }) {
     const [farms, setFarms] = useState([]);
     const [error, setError] = useState(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         async function fetchFarms() {
@@ -17,15 +19,16 @@ function FarmsPage({ token, onSelectFarm }) {
                 console.log('API response:', response.data);
                 setFarms(response.data);
             } catch (err) {
-                setError('Не вдалося завантажити ферми.');
+                setError(t('errors.loadFarms'));
             }
         }
 
         fetchFarms();
-    }, [token]);
+    }, [token,t]);
+   
 
     if (farms.length === 0) {
-        return <p>У вас ще немає ферм.</p>;
+        return <p>{t('farmsPage.noFarms')}</p>;
     }
 
     if (error) {
@@ -33,7 +36,7 @@ function FarmsPage({ token, onSelectFarm }) {
     }
     return (
         <div className='farms-container'>
-            <h2>Оберіть ферму</h2>
+            <h2>{t('farmsPage.title')}</h2>
             <div className='farms-container_list'>
                 {farms.map((farm) => (
                     <div key={farm.id} className="farms-container_list_item">
@@ -45,7 +48,7 @@ function FarmsPage({ token, onSelectFarm }) {
                                 ({farm.city}, {farm.country})
                             </span>
                         </div>
-                        <button onClick={() => onSelectFarm(farm.id)}>Перейти до ферми</button>
+                        <button onClick={() => onSelectFarm(farm.id)}>{t('farmsPage.goToFarm')}</button>
                     </div>
                 ))}
             </div>

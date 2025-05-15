@@ -1,0 +1,19 @@
+{
+  "header": {
+    "home": "Home",
+    "register": "Register",
+    "login": "Login"
+  },
+  "farmsPage": {
+    "title": "Choose a farm",
+    "noFarms": "You have no farms yet",
+    "goToFarm": "Go to farm"
+  },
+  "footer": {
+    "rights": "All rights reserved"
+  },
+  "errors": {
+    "loadFarms": "Failed to load farms"
+  }
+}
+
