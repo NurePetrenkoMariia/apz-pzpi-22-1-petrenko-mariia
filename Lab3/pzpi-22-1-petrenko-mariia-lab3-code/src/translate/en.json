@@ -2,7 +2,8 @@
   "header": {
     "home": "Home",
     "register": "Register",
-    "login": "Login"
+    "login": "Login",
+    "logout": "Logout"
   },
   "farmsPage": {
     "title": "Choose a farm",
@@ -13,7 +14,37 @@
     "rights": "All rights reserved"
   },
   "errors": {
-    "loadFarms": "Failed to load farms"
+    "loadFarms": "Failed to load farms",
+    "loadStables": "Failed to load stables",
+    "login": "Incorrect email or password",
+    "notAuthorized": "You are not authorized",
+    "register":"An error occurred"
+  },
+  "stablesPage":{
+    "goToStable": "More details",
+    "noStables": "This farm has no stables yet",
+    "id": "ID: ",
+    "feedLevel": "Minimum allowable feed level: "
+  },
+  "loginPage":{
+    "title":"Login",
+    "email":"Email",
+    "password":"Password",
+    "login":"Login",
+    "account":"Don't have an account yet?",
+    "register":"Register"
+  },
+  "registerPage":{
+    "title":"Create an account",
+    "firstName":"First name",
+    "lastName":"Last name",
+    "dateOfBirth": "Date of birth",
+    "phoneNumber":"Phone number",
+    "email":"Email",
+    "password":"Password",
+    "login":"Login",
+    "account":"Already have an account?",
+    "register":"Register"
   }
 }
 

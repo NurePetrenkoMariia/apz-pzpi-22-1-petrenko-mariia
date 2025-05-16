@@ -1,0 +1,42 @@
+.register-form-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+}
+
+.register-form-container h2{
+    padding: 10px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+}
+
+.register-form-container form input{
+    margin-bottom: 15px; 
+    padding: 8px;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.register-form-container button{
+    width: 127px;
+    height: 45px;
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 20px;
+}
+
+.register-form-container-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-link{
+    padding: 10px;
+}

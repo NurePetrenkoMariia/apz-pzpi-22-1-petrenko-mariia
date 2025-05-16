@@ -2,14 +2,23 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './FarmsPage.css';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
-function FarmsPage({ token, onSelectFarm }) {
+
+function FarmsPage() {
     const [farms, setFarms] = useState([]);
     const [error, setError] = useState(null);
     const { t } = useTranslation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchFarms() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setError(t('errors.notAuthorized'));
+                return;
+            }
+
             try {
                 const response = await axios.get('/api/farms', {
                     headers: {
@@ -24,11 +33,14 @@ function FarmsPage({ token, onSelectFarm }) {
         }
 
         fetchFarms();
-    }, [token,t]);
-   
+    }, []);
+
+    const onSelectFarm = (farmId) => {
+        navigate(`/farms/${farmId}/stables`);
+    };
 
     if (farms.length === 0) {
-        return <p>{t('farmsPage.noFarms')}</p>;
+        return <p className='no-farms'>{t('farmsPage.noFarms')}</p>;
     }
 
     if (error) {

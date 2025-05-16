@@ -42,3 +42,13 @@
     color: white;
     padding: 5px;
 }
+
+.no-farms{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;      
+    font-size: 24px;
+    text-align: center;
+    font-weight: bold;
+}

@@ -7,7 +7,7 @@ function Footer() {
 
   return (
     <footer className="footer">
-      <p>&copy; 2025 {t('footer.rights')}</p>
+      <p>&copy; 2025, {t('footer.rights')}</p>
     </footer>
   );
 }
