@@ -2,16 +2,16 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 function StablesPage() {
     const [stables, setStables] = useState([]);
     const { farmId } = useParams();
     const [error, setError] = useState(null);
-
+    const navigate = useNavigate();
     const { t } = useTranslation();
-
     const token = localStorage.getItem('token');
-    
+
     useEffect(() => {
         const fetchStables = async () => {
             try {
@@ -20,7 +20,7 @@ function StablesPage() {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                
+
                 const farmStables = response.data.filter(
                     (stable) => stable.farmId === farmId
                 );
@@ -34,6 +34,9 @@ function StablesPage() {
         fetchStables();
     }, [farmId]);
 
+    const onSelectStable = (stableId) => {
+        navigate(`/farms/${farmId}/stables/${stableId}/animals`);
+    };
     if (error) {
         return <p style={{ color: 'red' }}>{error}</p>;
     }
@@ -43,7 +46,7 @@ function StablesPage() {
 
     return (
         <div className='stables-container'>
-            <h2>Стійла ферми</h2>
+            <h2>{t('stablesPage.title')}</h2>
             <div className='stables-container_list'>
                 {stables.map((stable) => (
                     <div key={stable.id} className="stables-container_list_item">

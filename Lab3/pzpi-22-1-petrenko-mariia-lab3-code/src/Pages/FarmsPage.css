@@ -1,4 +1,4 @@
-.farms-container{
+.farms-container {
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -6,35 +6,35 @@
     margin-top: 30px;
 }
 
-.farms-container h2{
+.farms-container h2 {
     margin-bottom: 10px;
 }
 
-.farms-container_list_item_text{
+.farms-container_list_item_text {
     display: flex;
     flex-wrap: nowrap;
     gap: 5px;
     padding-bottom: 10px;
 }
 
-.farms-container_list_item_text_name{
+.farms-container_list_item_text_name {
     font-weight: bold;
 }
 
-.farms-container_list_item{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border: 1px solid #ccc;
-  padding: 16px;
-  width: 400px;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
-  margin-bottom: 20px;
+.farms-container_list_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #ccc;
+    padding: 16px;
+    width: 400px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
 }
 
-.farms-container_list_item button{
+.farms-container_list_item button {
     width: 154px;
     border-radius: 8px;
     border: none;
@@ -43,12 +43,27 @@
     padding: 5px;
 }
 
-.no-farms{
+.no-farms {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 70vh;      
+    height: 70vh;
     font-size: 24px;
     text-align: center;
     font-weight: bold;
+}
+
+.farms-container_list-buttons-container{
+    display: flex;
+    gap: 5px;
+    height: 39px;
+}
+
+.farms-container-add_button{
+    width: 154px;
+    border-radius: 8px;
+    border: none;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 5px;
 }

@@ -11,32 +11,54 @@ function FarmsPage() {
     const { t } = useTranslation();
     const navigate = useNavigate();
 
+    const token = localStorage.getItem('token');
+
     useEffect(() => {
-        async function fetchFarms() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                setError(t('errors.notAuthorized'));
-                return;
-            }
-
-            try {
-                const response = await axios.get('/api/farms', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                console.log('API response:', response.data);
-                setFarms(response.data);
-            } catch (err) {
-                setError(t('errors.loadFarms'));
-            }
-        }
-
         fetchFarms();
     }, []);
 
+    const fetchFarms = async () => {
+        if (!token) {
+            setError(t('errors.notAuthorized'));
+            return;
+        }
+        try {
+            const response = await axios.get('/api/farms', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setFarms(response.data);
+        } catch (err) {
+            setError(t('errors.loadFarms') + ': ' + err.message);
+        }
+    };
+
     const onSelectFarm = (farmId) => {
         navigate(`/farms/${farmId}/stables`);
+    };
+
+    const handleAdding = () => {
+        navigate('/farms/add');
+    };
+
+    const handleDelete = async (id) => {
+        const confirm = window.confirm(t('farmsPage.confirmDelete'));
+        if (!confirm) return;
+
+        try {
+            const token = localStorage.getItem('token');
+            await axios.delete(`/api/farms/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            setFarms(prevFarms => prevFarms.filter(f => f.id !== id));
+        } catch (err) {
+            console.error('Delete error:', err);
+            alert(t('errors.deleteFarm') + ': '+ err.message);
+        }
     };
 
     if (farms.length === 0) {
@@ -49,6 +71,9 @@ function FarmsPage() {
     return (
         <div className='farms-container'>
             <h2>{t('farmsPage.title')}</h2>
+            <button className='farms-container-add_button' onClick={() => handleAdding()}>
+                {t('farmsPage.add')}
+            </button>
             <div className='farms-container_list'>
                 {farms.map((farm) => (
                     <div key={farm.id} className="farms-container_list_item">
@@ -60,7 +85,17 @@ function FarmsPage() {
                                 ({farm.city}, {farm.country})
                             </span>
                         </div>
-                        <button onClick={() => onSelectFarm(farm.id)}>{t('farmsPage.goToFarm')}</button>
+                        <div className='farms-container_list-buttons-container'>
+                            <button onClick={() => onSelectFarm(farm.id)}>
+                                {t('farmsPage.goToFarm')}
+                            </button>
+                            <button onClick={() => navigate(`/farms/${farm.id}/edit`)}>
+                                {t('farmsPage.edit')}
+                            </button>
+                            <button onClick={() => handleDelete(farm.id)}>
+                                {t('farmsPage.delete')}
+                            </button>
+                        </div>
                     </div>
                 ))}
             </div>

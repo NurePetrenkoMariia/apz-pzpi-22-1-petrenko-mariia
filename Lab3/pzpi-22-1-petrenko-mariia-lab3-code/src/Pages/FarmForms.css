@@ -1,0 +1,38 @@
+.farms-edit_form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.farms-edit_form-container h2 {
+    padding: 10px;
+}
+
+.farms-edit_form_field input {
+    margin-bottom: 15px;
+    padding: 8px;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.farms-edit_form button {
+    width: 127px;
+    height: 45px;
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 20px;
+}
+
+.farms-edit_form_button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

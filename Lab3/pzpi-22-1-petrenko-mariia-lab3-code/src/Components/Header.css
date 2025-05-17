@@ -19,7 +19,7 @@
 }
 
 .header ul li {
-  padding: 7px 12px ;
+  padding: 7px 12px;
 }
 
 .header li a {
@@ -31,6 +31,15 @@
   background-color: black;
   border-radius: 20px;
 }
+
+.header_logout {
+  background-color: black;
+  border-radius: 20px;
+  color: white;
+  height: 22px;
+  width: 60px;
+}
+
 
 .header li.header_login a {
   color: white;

@@ -8,7 +8,27 @@
   "farmsPage": {
     "title": "Choose a farm",
     "noFarms": "You have no farms yet",
-    "goToFarm": "Go to farm"
+    "goToFarm": "Go to farm",
+    "edit": "Edit",
+    "delete": "Delete",
+    "add":"Add new farm",
+    "confirmDelete":"Do you want to delete this farm?"
+  },
+  "editFarmPage": {
+    "editFarm": "Farm editing",
+    "name": "Name",
+    "city": "City",
+    "country": "Country",
+    "street": "Street",
+    "save": "Save"
+  },
+  "addFarmPage": {
+    "name": "Name",
+    "city": "City",
+    "country": "Country",
+    "street": "Street",
+    "add": "Add farm",
+    "addFarm":"Adding a new farm"
   },
   "footer": {
     "rights": "All rights reserved"
@@ -18,33 +38,45 @@
     "loadStables": "Failed to load stables",
     "login": "Incorrect email or password",
     "notAuthorized": "You are not authorized",
-    "register":"An error occurred"
+    "register": "An error occurred",
+    "loadAnimals": "Failed to load animals",
+    "addFarm": "Failed to add a new farm",
+    "userNotFound":"Owner was not found",
+    "deleteFarm":"Failed to delete the farm"
   },
-  "stablesPage":{
+  "stablesPage": {
     "goToStable": "More details",
+    "title": "Stables",
     "noStables": "This farm has no stables yet",
     "id": "ID: ",
     "feedLevel": "Minimum allowable feed level: "
   },
-  "loginPage":{
-    "title":"Login",
-    "email":"Email",
-    "password":"Password",
-    "login":"Login",
-    "account":"Don't have an account yet?",
-    "register":"Register"
+  "loginPage": {
+    "title": "Login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "account": "Don't have an account yet?",
+    "register": "Register"
   },
-  "registerPage":{
-    "title":"Create an account",
-    "firstName":"First name",
-    "lastName":"Last name",
+  "registerPage": {
+    "title": "Create an account",
+    "firstName": "First name",
+    "lastName": "Last name",
     "dateOfBirth": "Date of birth",
-    "phoneNumber":"Phone number",
-    "email":"Email",
-    "password":"Password",
-    "login":"Login",
-    "account":"Already have an account?",
-    "register":"Register"
+    "phoneNumber": "Phone number",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "account": "Already have an account?",
+    "register": "Register"
+  },
+  "animalsPage": {
+    "title": "Animals",
+    "name": "Name",
+    "species": "Species",
+    "breed": "Breed",
+    "dateOfBirth": "Date of birth",
+    "sex": "Sex"
   }
 }
-

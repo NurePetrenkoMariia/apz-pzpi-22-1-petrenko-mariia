@@ -20,8 +20,9 @@ function LoginPage() {
         password
       });
 
-      const token = response.data;
+       const { token, userId } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('userId', userId);
       const decoded = parseToken(token);
 
 

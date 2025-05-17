@@ -31,7 +31,7 @@ function Header() {
               <li className="header_login"><a href="/login">{i18n.t('header.login')}</a></li>
             </>
           ) : (
-            <li><button onClick={handleLogout}>{i18n.t('header.logout') || 'Вийти'}</button></li>
+            <li><button className="header_logout" onClick={handleLogout}>{i18n.t('header.logout') || 'Вийти'}</button></li>
           )}
            <li className="language-switcher" style={{ marginLeft: '1rem' }}>
             <a href="#" onClick={() => changeLanguage('uk')}>укр</a> | 

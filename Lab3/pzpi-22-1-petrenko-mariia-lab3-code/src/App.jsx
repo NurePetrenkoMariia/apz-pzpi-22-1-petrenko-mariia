@@ -7,6 +7,9 @@ import React from 'react';
 import StablesPage from './Pages/StablesPage';
 import LoginPage from './Pages/LoginPage';
 import RegisterPage from './Pages/RegisterPage';
+import AnimalsPage from './Pages/AnimalsPage';
+import EditFarmPage from './Pages/EditFarmPage';
+import AddFarmPage from './Pages/AddFarmPage';
 
 function App() {
 
@@ -18,7 +21,10 @@ function App() {
           <main>
             <Routes>
               <Route path="/farms" element={<FarmsPage />} />
+              <Route path="/farms/add" element={<AddFarmPage />} />
+              <Route path="/farms/:id/edit" element={<EditFarmPage />} />
               <Route path="/farms/:farmId/stables" element={<StablesPage />} />
+              <Route path="/farms/:farmId/stables/:stableId/animals" element={<AnimalsPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Routes>
