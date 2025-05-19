@@ -11,7 +11,7 @@
     "goToFarm": "Go to farm",
     "edit": "Edit",
     "delete": "Delete",
-    "add":"Add new farm",
+    "add":"Add a new farm",
     "confirmDelete":"Do you want to delete this farm?"
   },
   "editFarmPage": {
@@ -42,14 +42,27 @@
     "loadAnimals": "Failed to load animals",
     "addFarm": "Failed to add a new farm",
     "userNotFound":"Owner was not found",
-    "deleteFarm":"Failed to delete the farm"
+    "deleteFarm":"Failed to delete the farm",
+    "addStable":"Failed to add a new stable",
+    "deleteStable":"Failed to delete the stable",
+    "addAnimal":"Failed to add a new animal",
+    "updateAnimal":"Failed to update animal",
+    "updateFarm":"Failed to update farm",
+    "editStable":"Failed to update stable",
+    "deleteAnimal":"Failed to delete the animal"
   },
   "stablesPage": {
     "goToStable": "More details",
     "title": "Stables",
     "noStables": "This farm has no stables yet",
     "id": "ID: ",
-    "feedLevel": "Minimum allowable feed level: "
+    "feedLevel": "Minimum allowable feed level: ",
+    "edit":"Edit",
+    "delete":"Delete",
+    "add":"Add a new stable",
+    "enterMinFeedLevel":"Enter minimum allowable feed level: ",
+    "enterNewMinFeedLevel":"Enter new minimum allowable feed level:",
+    "confirmDelete":"Do you want to delete this stable?"
   },
   "loginPage": {
     "title": "Login",
@@ -77,6 +90,29 @@
     "species": "Species",
     "breed": "Breed",
     "dateOfBirth": "Date of birth",
-    "sex": "Sex"
+    "sex": "Sex",
+    "noAnimals":"This stable has no animals yet",
+    "add":"Add a new animal",
+    "confirmDelete":"Do you want to delete this animal",
+    "unknown":"Unknown"
+  },
+  "addAnimalPage":{
+    "addAnimal":"Adding a new animal",
+    "name":"Name",
+    "species":"Species",
+    "breed":"Breed",
+    "dateOfBirth":"Date of birth",
+    "sex":"Sex",
+    "add":"Add"
+  },
+  "sex":{
+    "female": "Female",
+    "male":"Male",
+    "selectSex":"Select sex"
+  },
+  "editAnimalPage":{
+    "editAnimal" :"Editing an animal",
+    "saveChanges":"Save"
   }
+
 }

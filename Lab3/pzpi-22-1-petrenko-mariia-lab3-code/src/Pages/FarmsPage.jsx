@@ -57,50 +57,52 @@ function FarmsPage() {
             setFarms(prevFarms => prevFarms.filter(f => f.id !== id));
         } catch (err) {
             console.error('Delete error:', err);
-            alert(t('errors.deleteFarm') + ': '+ err.message);
+            alert(t('errors.deleteFarm') + ': ' + err.message);
         }
     };
 
-    if (farms.length === 0) {
-        return <p className='no-farms'>{t('farmsPage.noFarms')}</p>;
-    }
-
-    if (error) {
-        return <p style={{ color: 'red' }}>{error}</p>;
-    }
     return (
         <div className='farms-container'>
             <h2>{t('farmsPage.title')}</h2>
-            <button className='farms-container-add_button' onClick={() => handleAdding()}>
+
+            <button className='farms-container-add_button' onClick={handleAdding}>
                 {t('farmsPage.add')}
             </button>
-            <div className='farms-container_list'>
-                {farms.map((farm) => (
-                    <div key={farm.id} className="farms-container_list_item">
-                        <div className='farms-container_list_item_text'>
-                            <span className='farms-container_list_item_text_name'>
-                                {farm.name}
-                            </span>
-                            <span className='farms-container_list_item_text_location'>
-                                ({farm.city}, {farm.country})
-                            </span>
+
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
+            {farms.length === 0 ? (
+                <p className='no-farms'>{t('farmsPage.noFarms')}</p>
+            ) : (
+                <div className='farms-container_list'>
+                    {farms.map((farm) => (
+                        <div key={farm.id} className="farms-container_list_item">
+                            <div className='farms-container_list_item_text'>
+                                <span className='farms-container_list_item_text_name'>
+                                    {farm.name}
+                                </span>
+                                <span className='farms-container_list_item_text_location'>
+                                    ({farm.city}, {farm.country})
+                                </span>
+                            </div>
+                            <div className='farms-container_list-buttons-container'>
+                                <button onClick={() => onSelectFarm(farm.id)}>
+                                    {t('farmsPage.goToFarm')}
+                                </button>
+                                <button onClick={() => navigate(`/farms/${farm.id}/edit`)}>
+                                    {t('farmsPage.edit')}
+                                </button>
+                                <button onClick={() => handleDelete(farm.id)}>
+                                    {t('farmsPage.delete')}
+                                </button>
+                            </div>
                         </div>
-                        <div className='farms-container_list-buttons-container'>
-                            <button onClick={() => onSelectFarm(farm.id)}>
-                                {t('farmsPage.goToFarm')}
-                            </button>
-                            <button onClick={() => navigate(`/farms/${farm.id}/edit`)}>
-                                {t('farmsPage.edit')}
-                            </button>
-                            <button onClick={() => handleDelete(farm.id)}>
-                                {t('farmsPage.delete')}
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
+
 }
 
 export default FarmsPage;

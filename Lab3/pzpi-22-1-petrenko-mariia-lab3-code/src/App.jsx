@@ -10,6 +10,8 @@ import RegisterPage from './Pages/RegisterPage';
 import AnimalsPage from './Pages/AnimalsPage';
 import EditFarmPage from './Pages/EditFarmPage';
 import AddFarmPage from './Pages/AddFarmPage';
+import AddAnimalPage from './Pages/AddAnimalPage';
+import EditAnimalPage from './Pages/EditAnimalPage';
 
 function App() {
 
@@ -25,6 +27,9 @@ function App() {
               <Route path="/farms/:id/edit" element={<EditFarmPage />} />
               <Route path="/farms/:farmId/stables" element={<StablesPage />} />
               <Route path="/farms/:farmId/stables/:stableId/animals" element={<AnimalsPage />} />
+              <Route path="/farms/:farmId/stables/:stableId/animals/add" element={<AddAnimalPage />} />
+              <Route path="/farms/:farmId/stables/:stableId/animals/:animalId/edit" element={<EditAnimalPage />} />
+
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
             </Routes>
