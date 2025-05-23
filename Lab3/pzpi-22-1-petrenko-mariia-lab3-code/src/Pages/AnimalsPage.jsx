@@ -54,6 +54,7 @@ function Animals() {
             alert(t('errors.deleteAnimal') + ': ' + err.message);
         }
     };
+    
     const getSexLabel = (sex) => {
         if (sex === 0) return t('sex.female');
         if (sex === 1) return t('sex.male');

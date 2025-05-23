@@ -1,18 +1,22 @@
 {
   "header": {
-    "home": "Home",
+    "main": "Main page",
     "register": "Register",
     "login": "Login",
-    "logout": "Logout"
+    "logout": "Logout",
+    "admin":"Admin panel"
   },
   "farmsPage": {
     "title": "Choose a farm",
     "noFarms": "You have no farms yet",
-    "goToFarm": "Go to farm",
+    "goToFarm": "Details",
     "edit": "Edit",
     "delete": "Delete",
-    "add":"Add a new farm",
-    "confirmDelete":"Do you want to delete this farm?"
+    "add": "Add a new farm",
+    "confirmDelete": "Do you want to delete this farm?",
+    "goToAssignment": "Assignments",
+    "goToUsers":"Workers",
+    "notifications":"Notifications"
   },
   "editFarmPage": {
     "editFarm": "Farm editing",
@@ -28,7 +32,7 @@
     "country": "Country",
     "street": "Street",
     "add": "Add farm",
-    "addFarm":"Adding a new farm"
+    "addFarm": "Adding a new farm"
   },
   "footer": {
     "rights": "All rights reserved"
@@ -41,15 +45,25 @@
     "register": "An error occurred",
     "loadAnimals": "Failed to load animals",
     "addFarm": "Failed to add a new farm",
-    "userNotFound":"Owner was not found",
-    "deleteFarm":"Failed to delete the farm",
-    "addStable":"Failed to add a new stable",
-    "deleteStable":"Failed to delete the stable",
-    "addAnimal":"Failed to add a new animal",
-    "updateAnimal":"Failed to update animal",
-    "updateFarm":"Failed to update farm",
-    "editStable":"Failed to update stable",
-    "deleteAnimal":"Failed to delete the animal"
+    "userNotFound": "Owner was not found",
+    "deleteFarm": "Failed to delete the farm",
+    "addStable": "Failed to add a new stable",
+    "deleteStable": "Failed to delete the stable",
+    "addAnimal": "Failed to add a new animal",
+    "updateAnimal": "Failed to update animal",
+    "updateFarm": "Failed to update the farm",
+    "editStable": "Failed to update the stable",
+    "deleteAnimal": "Failed to delete the animal",
+    "loadAssignments": "Failed to load assignments",
+    "deleteAssignment": "Failed to delete the assignment",
+    "addAssignment": "Failed to add a new assignment",
+    "editAssignment": "Failed to update the assignment",
+    "addUser":"Failed to add a new user",
+    "fetchUser":"Failed to fetch user data",
+    "updateUser":"Failed to update the user data",
+    "loadNotifications":"Failed to load notifications",
+    "loadRecords": "Failed to load records",
+    "loadUsers": "Failed to load users"
   },
   "stablesPage": {
     "goToStable": "More details",
@@ -57,12 +71,13 @@
     "noStables": "This farm has no stables yet",
     "id": "ID: ",
     "feedLevel": "Minimum allowable feed level: ",
-    "edit":"Edit",
-    "delete":"Delete",
-    "add":"Add a new stable",
-    "enterMinFeedLevel":"Enter minimum allowable feed level: ",
-    "enterNewMinFeedLevel":"Enter new minimum allowable feed level:",
-    "confirmDelete":"Do you want to delete this stable?"
+    "edit": "Edit",
+    "delete": "Delete",
+    "add": "Add a new stable",
+    "enterMinFeedLevel": "Enter minimum allowable feed level(in cm): ",
+    "enterNewMinFeedLevel": "Enter new minimum allowable feed level(in cm):",
+    "confirmDelete": "Do you want to delete this stable?",
+    "goToFeed":"Feed level history"
   },
   "loginPage": {
     "title": "Login",
@@ -91,28 +106,121 @@
     "breed": "Breed",
     "dateOfBirth": "Date of birth",
     "sex": "Sex",
-    "noAnimals":"This stable has no animals yet",
-    "add":"Add a new animal",
-    "confirmDelete":"Do you want to delete this animal",
-    "unknown":"Unknown"
+    "noAnimals": "This stable has no animals yet",
+    "add": "Add a new animal",
+    "confirmDelete": "Do you want to delete this animal",
+    "unknown": "Unknown"
   },
-  "addAnimalPage":{
-    "addAnimal":"Adding a new animal",
-    "name":"Name",
-    "species":"Species",
-    "breed":"Breed",
-    "dateOfBirth":"Date of birth",
-    "sex":"Sex",
-    "add":"Add"
+  "addAnimalPage": {
+    "addAnimal": "Adding a new animal",
+    "name": "Name",
+    "species": "Species",
+    "breed": "Breed",
+    "dateOfBirth": "Date of birth",
+    "sex": "Sex",
+    "add": "Add"
   },
-  "sex":{
+  "sex": {
     "female": "Female",
-    "male":"Male",
-    "selectSex":"Select sex"
+    "male": "Male",
+    "selectSex": "Select sex"
   },
-  "editAnimalPage":{
-    "editAnimal" :"Editing an animal",
+  "editAnimalPage": {
+    "editAnimal": "Editing an animal",
+    "saveChanges": "Save"
+  },
+  "assignmentsPage": {
+    "title": "Assignments",
+    "add": "Add a new assignment",
+    "noAssignments": "There are no assignments",
+    "name": "Name",
+    "description": "Description",
+    "numberOfParticipants": "Number of participants",
+    "status": "Status",
+    "priority": "Priority",
+    "taskDistr":"Tasks distribution"
+  },
+  "addAssignmentPage": {
+    "addAssignment": "Adding a new assignment"
+  },
+  "status": {
+    "selectStatus": "Select status",
+    "notStarted": "Not started",
+    "inProgress": "In progress",
+    "finished": "Finished"
+  },
+  "priority": {
+    "selectPriority": "Select priority",
+    "high": "High",
+    "medium": "Medium",
+    "low": "Low"
+  },
+  "editAssignmentPage": {
+    "editAssignment": "Editing an assignment"
+  },
+  "usersPage":{
+    "title": "Users",
+    "addWorker":"Add a new worker",
+    "addAdmin":"Add a new administrator",
+    "noUsers":"There are no users",
+    "name":"Name",
+    "dateOfBirth":"Date of birth",
+    "edit":"Edit",
+    "delete":"Delete",
+    "email":"Email",
+    "phone":"Phone number"
+  },
+  "addUserPage":{
+    "addUser":"Adding a new user",
+    "firstName":"First name",
+    "lastName":"Last name",
+    "role":"Role",
+    "selectRole":"Select a role"
+  },
+  "roles":{
+    "worker":"Worker",
+    "admin":"Administrator"
+  },
+  "editUserPage":{
+    "editUSer":"Editing the user",
     "saveChanges":"Save"
+  },
+  "notificationsPage":{
+    "title":"Notifications",
+    "noNotifications":"No notifications",
+    "notificationTitle":"Title",
+    "text":"Text",
+    "date":"Created at"
+  },
+  "feedLevelPage":{
+    "title":"Feed level history",
+    "noHistory":"There is no data",
+    "stableId":"Stable ID",
+    "feedLevel":"Current feed level",
+    "time":"Date, time",
+    "predictedTime":"Predicted time to empty"
+  },
+  "taskDistrPage":{
+    "title":"Distribution of tasks",
+    "distributing":"Automatic distribution",
+    "user":"User",
+    "userId":"User ID",
+    "taskName":"Task name",
+    "taskDescr":"Description",
+    "no-task":"No tasks found",
+    "success":"Tasks are successfully distributed",
+    "error":"Error while distributing tasks"
+  },
+  "backupPage":{
+    "title":"Backup and restore",
+    "downloadButton":"Create backup",
+    "restoreTitle":"Restore database",
+    "backup":"Backup of the database",
+    "restoreButton":"Restore",
+    "downloadSuccess":"Backup downloaded successfully",
+    "downloadError":"Failed to download backup",
+    "noFileSelected":"No file was selected",
+    "restoreSuccess":"Restored database successfully",
+    "restoreError":"Failed to restore database"
   }
-
 }

@@ -36,3 +36,7 @@ form {
     justify-content: center;
     align-items: center;
 }
+
+.assignments-container_list_item_text_value{
+    padding: 10px;
+}

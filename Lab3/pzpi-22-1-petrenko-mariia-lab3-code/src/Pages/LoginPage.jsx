@@ -20,39 +20,17 @@ function LoginPage() {
         password
       });
 
-       const { token, userId } = response.data;
+      const { token, userId, role } = response.data;
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
-      const decoded = parseToken(token);
-
-
-      if (decoded.role === "Owner" || decoded.role === "DatabaseAdmin") {
-        navigate("/farms");
-      } else if (decoded.role === "Admin") {
-        navigate("/stables");
-      } else {
-        navigate("/");
-      }
+      localStorage.setItem('role', role);
+      
+      navigate("/farms");
     } catch (err) {
       setError(t('errors.login') + ': ' + err.message);
     }
   };
 
-  function parseToken(token) {
-    try {
-      const base64Url = token.split(".")[1];
-      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-      const jsonPayload = decodeURIComponent(
-        atob(base64).split("").map(function (c) {
-          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join("")
-      );
-
-      return JSON.parse(jsonPayload);
-    } catch (e) {
-      return {};
-    }
-  }
   return (
     <>
       <div className="login-form-container">

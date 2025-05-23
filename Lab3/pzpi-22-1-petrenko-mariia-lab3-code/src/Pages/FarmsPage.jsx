@@ -8,14 +8,21 @@ import { useNavigate } from 'react-router-dom';
 function FarmsPage() {
     const [farms, setFarms] = useState([]);
     const [error, setError] = useState(null);
+    const [role, setRole] = useState(null);
+
     const { t } = useTranslation();
     const navigate = useNavigate();
 
     const token = localStorage.getItem('token');
 
     useEffect(() => {
+        const storedRole = localStorage.getItem('role');
+        if (storedRole !== null) {
+            setRole(parseInt(storedRole));
+        }
         fetchFarms();
     }, []);
+
 
     const fetchFarms = async () => {
         if (!token) {
@@ -38,9 +45,21 @@ function FarmsPage() {
         navigate(`/farms/${farmId}/stables`);
     };
 
+    const onSelectFarmToTask = (farmId) => {
+        navigate(`/farms/${farmId}/assignments`);
+    };
+
     const handleAdding = () => {
         navigate('/farms/add');
     };
+
+    const onSelectFarmToUsers = (farmId) => {
+        navigate(`/farms/${farmId}/users`);
+    };
+
+    const handleNotifications = () => {
+        navigate(`/notifications`);
+    }
 
     const handleDelete = async (id) => {
         const confirm = window.confirm(t('farmsPage.confirmDelete'));
@@ -65,9 +84,15 @@ function FarmsPage() {
         <div className='farms-container'>
             <h2>{t('farmsPage.title')}</h2>
 
-            <button className='farms-container-add_button' onClick={handleAdding}>
-                {t('farmsPage.add')}
+            <button className='farms-container-add_button' onClick={handleNotifications}>
+                {t('farmsPage.notifications')}
             </button>
+            
+            {(role === 0) && (
+                <button className='farms-container-add_button' onClick={handleAdding}>
+                    {t('farmsPage.add')}
+                </button>
+            )}
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -89,12 +114,24 @@ function FarmsPage() {
                                 <button onClick={() => onSelectFarm(farm.id)}>
                                     {t('farmsPage.goToFarm')}
                                 </button>
-                                <button onClick={() => navigate(`/farms/${farm.id}/edit`)}>
-                                    {t('farmsPage.edit')}
+                                <button onClick={() => onSelectFarmToTask(farm.id)}>
+                                    {t('farmsPage.goToAssignment')}
                                 </button>
-                                <button onClick={() => handleDelete(farm.id)}>
-                                    {t('farmsPage.delete')}
+                                <button onClick={() => onSelectFarmToUsers(farm.id)}>
+                                    {t('farmsPage.goToUsers')}
                                 </button>
+
+                                {(role === 0 || role === 3) && (
+                                    <>
+                                        <button onClick={() => navigate(`/farms/${farm.id}/edit`)}>
+                                            {t('farmsPage.edit')}
+                                        </button>
+                                        <button onClick={() => handleDelete(farm.id)}>
+                                            {t('farmsPage.delete')}
+                                        </button>
+                                    </>
+                                )}
+
                             </div>
                         </div>
                     ))}
@@ -102,7 +139,6 @@ function FarmsPage() {
             )}
         </div>
     );
-
 }
 
 export default FarmsPage;
