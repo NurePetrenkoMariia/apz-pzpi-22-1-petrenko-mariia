@@ -38,12 +38,13 @@
 0.1 
 Створено розділ «Завдання»
 2
-
+23.05.2025
 0.1
-
-
-
-
+Додано розділ «Опис виконаної роботи». Додано додатки
+3
+24.05.2025
+0.1
+Додано посилання на відео та хронологічний опис
 
 
 
@@ -97,56 +98,12 @@
 
 
 3 ОПИС ВИКОНАНОЇ РОБОТИ
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-
+     Для цієї лабораторної роботи було розроблено веб-частину системи. У якості мови програмування було обрано React.js. Архітектура – компонетно-орієнтована, оскільки веб-частина складається з функцій та логічних компонентів, які можуть використовуватися повторно.
+     Після закінчення розробки був створений відеозапис, посилання на який знаходиться у додатку А. 
+     ER-діаграма наведена в додатку Б на рисунку Б.1. Структура бази даних наведена на діаграмі в додатку Б на рисунку Б.2. UML-діаграма прецедентів знаходиться на рисунку Б.3. Рисунок Б.4 — UML діаграма компонент. Рисунок Б.5 – діаграма станів. А рисунки Б.6 та Б.7 містять діаграми діяльності. 
+     Приклади програмного коду наведені в додатку В. 
 4 ВИСНОВКИ
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+     Під час виконання лабораторної роботи була розроблена клієнтська / front-end частина програмної системи. 
 
 
 
@@ -164,30 +121,28 @@
 
 ДОДАТОК А
 Відеозапис
-Відеозапис презентації результатів лабораторної роботи: https://{URL}
+     Відеозапис презентації результатів лабораторної роботи: https://youtu.be/PBLCipVOqZo 
 
-Хронологічний опис відеозапису:
+     Хронологічний опис відеозапису:
+     
+     00:00 — Вступ
+     00:10 – Реєстрація та логін 
+     01:10 – Вхід в обліковий запис власника 
+     01:20 – CRUD операції над фермами
+     01:36 - CRUD операції над стійлами
+     02:00 - CRUD операції над тваринами
+     02:26 – Історія вимірів рівня корму 
+     02:56 – Перегляд сповіщень
+     03:19 - CRUD операції над робітниками ферми
+     04:40 - CRUD операції над завданнями 
+     05:20 – Математична обробка даних. Розподіл завдань
+     06:03 – Демонстрація можливостей облікового запису адміністратора ферми
+     06:52 – Адміністрування системи 
+     09:02 – Створення резервної копіїї БД та відновлення 
+     10:25 – Зміна мови, одиниць виміру, формату дати та часу
 
-00:00 — Назва та стислий опис першого фрагмента відео
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+
+
      
      
 
@@ -195,10 +150,19 @@
 ДОДАТОК Б
 Графічні матеріали
 
-Рисунок Б.1 — UML діаграма прецедентів
-Рисунок Б.2 — UML діаграма компонент
-Рисунок Б.3 –
-Рисунок Б.4 - 
+Рисунок Б.1 — ER-діаграма даних
+
+Рисунок Б.2 — Структура бази даних
+
+Рисунок Б.3 — UML-діаграма прецедентів
+
+Рисунок Б.4 — UML діаграма компонент
+
+Рисунок Б.5 — UML діаграма станів
+
+Рисунок Б.6 – Діаграма діяльності
+
+Рисунок Б.7 – Діаграма діяльності
 
      
      
@@ -211,35 +175,323 @@
      
      
      
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
-     
+
 
 ДОДАТОК В
 Програмний код
-В.1 
-GitHub репозиторій: https://github.{…}/{ файл_з_програмним_кодом }
- 1  // Приклад коду, оформлений шрифтом Courier New  
- 2  #include <stdio.h>  
- 3  int main() {  
- 4      printf("Hello, world!\n");  
- 5      return 0;  
- 6  }  
-     
+В.1 Математична обробка прикладних даних
+GitHub репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab3/pzpi-22-1-petrenko-mariia-lab3-code/src/Pages/TaskDistributionPage.jsx 
+1 import React, { useEffect, useState } from 'react';
+2 import axios from 'axios';
+3 import { useParams } from 'react-router-dom';
+4 import { useTranslation } from 'react-i18next';
+5 
+6 
+7 const TaskDistributionPage = () => {
+8     const [tasks, setTasks] = useState([]);
+9     const [assigning, setAssigning] = useState(false);
+10     const [error, setError] = useState('');
+11     const [success, setSuccess] = useState('');
+12     const { farmId } = useParams();
+13     const { t } = useTranslation();
+14 
+15 
+16     useEffect(() => {
+17         fetchTasks();
+18     }, []);
+19 
+20     const fetchTasks = async () => {
+21         try {
+22             const res = await axios.get('/api/UserTask', {
+23                 headers: {
+24                     Authorization: `Bearer ${localStorage.getItem('token')}`
+25                 }
+26             });
+27             console.log('All records from backend:', res.data);
+28             setTasks(res.data);
+29         } catch (err) {
+30             setError('Помилка при завантаженні завдань');
+31         }
+32     };
+33 
+34     const handleDistribute = async () => {
+35         setAssigning(true);
+36         setError('');
+37         setSuccess('');
+38         try {
+39             await axios.post(`/api/TaskAssignment/assign-tasks/${farmId}`, null, {
+40                 headers: {
+41                     Authorization: `Bearer ${localStorage.getItem('token')}`
+42                 }
+43             });
+44             await fetchTasks();
+45             setSuccess(t('taskDistrPage.success'));
+46         } catch (err) {
+47             setError(t('taskDistrPage.error'));
+48         } finally {
+49             setAssigning(false);
+50         }
+51     };
+52 
+53     return (
+54         <div className='user-task-container'>
+55             <h2>{t('taskDistrPage.title')}</h2>
+56             <button
+57                 onClick={handleDistribute}
+58                 disabled={assigning}
+59                 style={{
+60                     width: '154px',
+61                     borderRadius: '8px',
+62                     border: 'none',
+63                     backgroundColor: 'black',
+64                     color: 'white',
+65                     padding: '5px',
+66                 }}
+67             >
+68                 {t('taskDistrPage.distributing')}
+69             </button>
+70 
+71             {error && <p style={{ color: 'red' }}>{error}</p>}
+72             {success && <p style={{ color: 'green' }}>{success}</p>}
+73 
+74             <table border="1" cellPadding="10" style={{ marginTop: '20px', width: '100%' }}>
+75                 <thead>
+76                     <tr>
+77                         <th>{t('taskDistrPage.userId')}</th>
+78                         <th>{t('taskDistrPage.user')}</th>
+79                         <th>{t('usersPage.email')}</th>
+80                         <th>{t('taskDistrPage.taskName')}</th>
+81                         <th>{t('taskDistrPage.taskDescr')}</th>
+82                     </tr>
+83                 </thead>
+84                 <tbody>
+85                     {tasks.length === 0 ? (
+86                         <tr><td colSpan="4" style={{ textAlign: 'center' }}>{t('taskDistrPage.no-task')}</td></tr>
+87                     ) : (
+88                         tasks.map((task) => (
+89                             <tr key={task.id}>
+90                                 <td>{task.user?.id || '—'}</td>
+91                                 <td>{task.user?.firstName || '—'} {task.user.lastName}</td>
+92                                 <td>{task.user?.email}</td>
+93                                 <td>{task.assignment?.name}</td>
+94                                 <td>{task.assignment?.description}</td>
+95                             </tr>
+96                         ))
+97                     )}
+98                 </tbody>
+99             </table>
+100         </div>
+101     );
+102 };
+103 
+104 export default TaskDistributionPage;
+
+В.2 Адміністрування бізнес-логіки системи
+GitHub репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab3/pzpi-22-1-petrenko-mariia-lab3-code/src/Pages/UsersPage.jsx 
+1 import React, { useEffect, useState } from 'react';
+2 import axios from 'axios';
+3 import { useTranslation } from 'react-i18next';
+4 import { useParams } from 'react-router-dom';
+5 import { useNavigate } from 'react-router-dom';
+6 import './UsersPage.css';
+7 
+8 function UsersPage() {
+9     const [users, setUsers] = useState([]);
+10     const [error, setError] = useState(null);
+11     const { t } = useTranslation();
+12     const token = localStorage.getItem('token');
+13     const { farmId } = useParams();
+14     const navigate = useNavigate();
+15 
+16     useEffect(() => {
+17         const fetchUsers = async () => {
+18             try {
+19                 const response = await axios.get('/api/users', {
+20                     headers: { Authorization: `Bearer ${token}` }
+21                 });
+22 
+23                 const filteredUsers = response.data.filter(user =>
+24                     (user.farmId?.toLowerCase() === farmId.toLowerCase() ||
+25                         user.administeredFarmId?.toLowerCase() === farmId.toLowerCase()) &&
+26                     user.role !== 'Owner'
+27                 );
+28 
+29                 setUsers(filteredUsers);
+30             } catch (err) {
+31                 setError(t('errors.loadUsers') + ': ' + err.message);
+32             }
+33         };
+34 
+35         fetchUsers();
+36     }, [farmId]);
+37 
+38     const handleAdding = () => {
+39         navigate(`/farms/${farmId}/users/add`);
+40     };
+41 
+42     const handleEdit = async (user) => {
+43         navigate(`/farms/${farmId}/users/${user.id}/edit`);
+44     };
+45 
+46     const handleDelete = async (userId) => {
+47         if (!window.confirm(t('usersPage.confirmDelete'))) return;
+48 
+49         try {
+50             await axios.delete(`/api/users/${userId}`, {
+51                 headers: { Authorization: `Bearer ${token}` }
+52             });
+53 
+54             setUsers(prev => prev.filter(u => u.id !== userId));
+55         } catch (err) {
+56             alert(t('errors.deleteUser') + ': ' + err.message);
+57         }
+58     };
+59 
+60     return (
+61         <div className='users-container'>
+62             <h2>{t('usersPage.title')}</h2>
+63             <div className='users-container-add-buttons'>
+64                 <button className='users-container-add-worker_button' onClick={() => handleAdding()}>
+65                     {t('usersPage.addWorker')}
+66                 </button>
+67             </div>
+68 
+69             {error && <p style={{ color: 'red' }}>{error}</p>}
+70 
+71             {users.length === 0 ? (
+72                 <p className='no-users'>{t('usersPage.noUsers')}</p>
+73             ) : (
+74                 <div className='users-container_list'>
+75                     {users.map(user => (
+76                         <div key={user.id} className='users-container_list_item'>
+77                             <div className='users-container_list_item_text'>
+78                                 <div className='users-container_list_item_text_div'><strong>{t('usersPage.name')}:</strong> {user.firstName} {user.lastName}</div>
+79                                 <div className='users-container_list_item_text_div'><strong>{t('usersPage.email')}:</strong> {user.email}</div>
+80                                 <div className='users-container_list_item_text_div'><strong>{t('usersPage.phone')}:</strong> {user.phoneNumber}</div>
+81                                 <div className='users-container_list_item_text_div'><strong>{t('usersPage.dateOfBirth')}:</strong> {user.dateOfBirth}</div>
+82                             </div>
+83 
+84                             <div className='users-container_list-buttons-container'>
+85                                 <button onClick={() => handleEdit(user)}>{t('usersPage.edit')}</button>
+86                                 <button onClick={() => handleDelete(user.id)}>{t('usersPage.delete')}</button>
+87                             </div>
+88                         </div>
+89                     ))}
+90                 </div>
+91             )}
+92         </div>
+93     );
+94 }
+95 
+96 export default UsersPage;
+
+В.3 Резервне копіювання користувацьких даних
+GitHub репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab3/pzpi-22-1-petrenko-mariia-lab3-code/src/Pages/BackupPage.jsx 
+
+1 import React, { useState } from 'react';
+2 import axios from 'axios';
+3 import { useTranslation } from 'react-i18next';
+4 import './BackupPage.css';
+5 
+6 function BackupPage() {
+7     const { t } = useTranslation();
+8     const [restoring, setRestoring] = useState(false);
+9     const [message, setMessage] = useState('');
+10     const [file, setFile] = useState(null);
+11     const token = localStorage.getItem('token');
+12 
+13     const handleDownloadBackup = async () => {
+14         try {
+15             const response = await axios.get('/api/backup/download-backup', {
+16                 responseType: 'blob',
+17                 headers: {
+18                     Authorization: `Bearer ${token}`,
+19                 },
+20             });
+21 
+22             const url = window.URL.createObjectURL(new Blob([response.data]));
+23             const link = document.createElement('a');
+24             link.href = url;
+25             link.setAttribute('download', 'FarmKeeperDatabaseBackup.bak');
+26             document.body.appendChild(link);
+27             link.click();
+28             link.remove();
+29             setMessage(t('backupPage.downloadSuccess'));
+30         } catch (error) {
+31             setMessage(`${t('backupPage.downloadError')}: ${error.message}`);
+32         }
+33     };
+34 
+35     const handleFileChange = (event) => {
+36         setFile(event.target.files[0]);
+37         setMessage('');
+38     };
+39 
+40     const handleRestore = async () => {
+41         if (!file) {
+42             setMessage(t('backupPage.noFileSelected'));
+43             return;
+44         }
+45 
+46         setRestoring(true);
+47         setMessage('');
+48         const formData = new FormData();
+49         formData.append('backupFile', file);
+50 
+51         try {
+52             const response = await axios.post('/api/backup/restore-database', formData, {
+53                 headers: {
+54                     'Content-Type': 'multipart/form-data',
+55                     'Authorization': `Bearer ${token}`
+56                 },
+57             });
+58             setMessage(`${t('backupPage.restoreSuccess')}: ${response.data}`);
+59         } catch (error) {
+60             setMessage(`${t('backupPage.restoreError')}: ${error.response?.data || error.message}`);
+61         } finally {
+62             setRestoring(false);
+63         }
+64     };
+65 
+66     return (
+67         <div className="backup-page-container">
+68             <h2>{t('backupPage.title')}</h2>
+69             <h3>{t('backupPage.backup')}</h3>
+70 
+71             <button className="users-container-add-worker_button" onClick={handleDownloadBackup}>
+72                 {t('backupPage.downloadButton')}
+73             </button>
+74 
+75             <h3>{t('backupPage.restoreTitle')}</h3>
+76 
+77             <input
+78                 type="file"
+79                 accept=".bak"
+80                 onChange={handleFileChange}
+81                 className="file-input"
+82             />
+83 
+84             <button
+85                 className="users-container-add-worker_button"
+86                 onClick={handleRestore}
+87                 disabled={restoring}
+88             >
+89                 {t('backupPage.restoreButton')}
+90             </button>
+91 
+92             {message && <p className="backup-message">{message}</p>}
+93         </div>
+94     );
+95 };
+96 
+97 export default BackupPage;
+
+
+
+
+
+
       
-      7
+      20
       
       
