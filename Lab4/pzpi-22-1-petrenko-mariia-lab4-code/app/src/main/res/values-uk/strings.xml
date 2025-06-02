@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ФармКіпер</string>
+    <string name="login">Вхід</string>
+    <string name="login_btn">Увійти</string>
+    <string name="login_failed">Виникла помилка при вході</string>
+    <string name="password">Пароль</string>
+    <string name="email">Електронна пошта</string>
+    <string name="farms">Ферми</string>
+    <string name="tasks">Завдання</string>
+    <string name="error_unauthorized">Доступ заборонено</string>
+    <string name="your_farms">Ваші ферми</string>
+    <string name="error_prefix">Помилка:</string>
+    <string name="label_name">Назва:</string>
+    <string name="label_country">Країна:</string>
+    <string name="label_city">Місто:</string>
+    <string name="label_street">Вулиця:</string>
+    <string name="title_assignments">Завдання</string>
+    <string name="label_status">Статус:</string>
+    <string name="label_priority">Пріоритет:</string>
+    <string name="label_participants">Учасників:</string>
+    <string name="label_decr">Опис:</string>
+    <string name="confirm_delete">Підтвердження:</string>
+    <string name="confirm_delete_question">Ви впевнені, що хочете видалити це завдання?</string>
+    <string name="yes">Так</string>
+    <string name="cancel">Скасувати</string>
+    <string name="delete">Видалити</string>
+    <string name="edit">Редагувати</string>
+    <string name="go_to_tasks">Завдання</string>
+    <string name="completion_percentage">Відсоток виконаних завдань</string>
+    <string name="admin_panel">Адмін-панель</string>
+    <string name="create_backup">Створити резервну копію</string>
+    <string name="backup_success">Резервна копія успішно збережена</string>
+    <string name="restore_backup">Відновити базу даних</string>
+</resources>
