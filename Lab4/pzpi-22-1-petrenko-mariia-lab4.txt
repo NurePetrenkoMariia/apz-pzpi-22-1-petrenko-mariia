@@ -1,0 +1,430 @@
+Харківський університет радіоелектроніки
+Факультет комп'ютерних наук
+Катедра програмної інженерії
+
+
+
+ЗВІТ
+з лабораторної роботи № 4
+з дисципліни «Архітектура програмного забезпечення»
+на тему: «РОЗРОБКА ПРОГРАМНОЇ АРХІТЕКТУРИ, СТВОРЕННЯ ТА
+ВІДЛАГОДЖЕННЯ ПРОГРАМНОГО КОДУ МОБІЛЬНОГО КЛІЄНТА
+ПРОГРАМНОЇ СИСТЕМИ»
+
+
+
+
+
+
+Виконала ст. гр ПЗПІ-22-1
+Петренко Марія Олександрівна
+
+    Перевірив
+    ст. викладач катедри ПІ
+    Сокорчук Ігор Петрович
+
+
+
+
+
+Харків 2025
+1 ІСТОРІЯ ЗМІН 
+№
+Дата 
+Версія звіту
+Опис змін та виправлень
+1
+25.05.2025
+0.1 
+Створено розділ «Завдання»
+2
+02.06.2025
+0.1
+Додано розділ «Опис виконаної роботи». Додано додатки
+3
+03.06.2025
+0.1
+Додано посилання на відео та хронологічний опис
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2 ЗАВДАННЯ
+	Розробити мобільний застосунок для  платформи Android із використанням мови програмування Kotlin.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3 ОПИС ВИКОНАНОЇ РОБОТИ
+     Для цієї лабораторної роботи було розроблено мобільний застосунок. У якості мови програмування було обрано Kotlin. Архітектура – MVVM, тому що в структурі проєкту є моделі, для взаємодії з базою даних, файли ViewModel, для взаємодії між інтерфейсом користувача та моделями, та View для відображення інтерфейсу. 
+     Після закінчення розробки був створений відеозапис, посилання на який знаходиться у додатку А. 
+     ER-діаграма наведена в додатку Б на рисунку Б.1. Структура бази даних наведена на діаграмі в додатку Б на рисунку Б.2. UML-діаграма прецедентів знаходиться на рисунку Б.3. 
+     Приклади програмного коду наведені в додатку В. 
+4 ВИСНОВКИ
+     Під час виконання лабораторної роботи був розроблений мобільний застосунок для платформи Android.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ДОДАТОК А
+Відеозапис
+     Відеозапис презентації результатів лабораторної роботи: https://youtu.be/93MNzOVmb1g 
+
+     Хронологічний опис відеозапису:
+     
+     00:00 — Вступ
+     01:36 – Вхід в обліковий запис власника ферми
+     01:44 – Перегляд функціоналу для власника ферми  
+     02:11– Розрахунок відсотку виконаних завдань
+     02:35 – Редагування завдання
+     02:42 – Видалення завдання 
+     03:18 – Вхід в обліковий запис робітника
+     03:36 – Зміна статусу завдання 
+     04:04 – Вхід в обліковий запис адміністратора бази даних
+     04:16 – Адміністрування 
+     05:03 – Створення резервної копії бази даних
+     05:43 – Відновлення бази даних за допомогою резервної копії
+     06:17 – Зміна мови застосунку 
+     07:34 – Архітектура мобільного застосунку 
+     
+     
+
+
+     
+     
+
+
+
+ДОДАТОК Б
+Графічні матеріали
+
+Рисунок Б.1 — ER-діаграма даних
+
+Рисунок Б.2 — Структура бази даних
+
+Рисунок Б.3 — UML-діаграма прецедентів
+
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+
+
+
+ДОДАТОК В
+Програмний код
+В.1 Математична обробка прикладних даних
+GitHub репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab4/pzpi-22-1-petrenko-mariia-lab4-code/app/src/main/java/com/farmkeeper/mobile/ui/assignment/AssignmentsScreen.kt 
+1 @Composable
+2 fun AssignmentsScreen(
+3     viewModel: AssignmentViewModel,
+4     userRole: UserRole,
+5     farmId: String,
+6     navController: NavController
+7 ){
+8     val assignments by viewModel.assignments.collectAsState()
+9     val error by viewModel.error.collectAsState()
+10 
+11     val percentageCompleted = remember(assignments) {
+12         val finishedCount = assignments.count { it.status == Status.Finished }
+13         if (assignments.isEmpty()) 0.0 else finishedCount.toDouble() / assignments.size * 100
+14     }
+15 
+16     LaunchedEffect(farmId) {
+17         viewModel.loadAssignmentsByFarm(farmId)
+18     }
+19 
+20     Column(modifier = Modifier.fillMaxSize()
+21         .padding(top = 48.dp, start = 24.dp, end = 24.dp)) {
+22         Text(text = stringResource(R.string.title_assignments), style = MaterialTheme.typography.headlineMedium)
+23         Spacer(modifier = Modifier.height(16.dp))
+24 
+25         Card(
+26             modifier = Modifier
+27                 .fillMaxWidth()
+28                 .padding(bottom = 16.dp),
+29             colors = CardDefaults.cardColors(
+30                 containerColor = MaterialTheme.colorScheme.primaryContainer
+31             ),
+32             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+33         ) {
+34             Column(modifier = Modifier.padding(16.dp)) {
+35                 Text(
+36                     text = stringResource(R.string.completion_percentage),
+37                     style = MaterialTheme.typography.titleMedium
+38                 )
+39                 Spacer(modifier = Modifier.height(4.dp))
+40                 Text(
+41                     text = "%.1f%%".format(percentageCompleted),
+42                     style = MaterialTheme.typography.headlineSmall,
+43                     color = MaterialTheme.colorScheme.primary
+44                 )
+45             }
+46         }
+47 
+48         if (error != null) {
+49             Text(text = "${stringResource(R.string.error_prefix)} $error", color = MaterialTheme.colorScheme.error)
+50         }
+51 
+52         LazyColumn {
+53             items(assignments) { assignment ->
+54                 AssignmentItem(
+55                     assignment = assignment,
+56                     userRole = userRole,
+57                     navController = navController,
+58                     onStatusChange = { updatedAssignment, newStatus ->
+59                         viewModel.updateAssignmentStatus(updatedAssignment, newStatus)
+60                     },
+61                     onDeleteClick = { assignmentId ->
+62                         viewModel.deleteAssignment(assignmentId)
+63                     }
+64                 )
+65 
+66             }
+67         }
+68     }
+69 }
+В.2 Адміністрування бізнес-логіки системи
+GitHub репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab4/pzpi-22-1-petrenko-mariia-lab4-code/app/src/main/java/com/farmkeeper/mobile/ui/assignment/EditAssignmentScreen.kt 
+1 @Composable
+2 fun EditAssignmentScreen(
+3     assignmentId: String,
+4     viewModel: AssignmentViewModel,
+5     navController: NavController,
+6     userRole: UserRole?
+7 ) {
+8     val assignment = viewModel.getAssignmentById(assignmentId)
+9     var name by remember { mutableStateOf(assignment?.name ?: "") }
+10     var description by remember { mutableStateOf(assignment?.description ?: "") }
+11     var numberOfParticipants by remember { mutableStateOf(assignment?.numberOfParticipants?.toString() ?: "1") }
+12     var status by remember { mutableStateOf(assignment?.status ?: Status.NotStarted) }
+13     var priority by remember { mutableStateOf(assignment?.priority ?: Priority.Medium) }
+14 
+15     var statusExpanded by remember { mutableStateOf(false) }
+16     var priorityExpanded by remember { mutableStateOf(false) }
+17 
+18     Column(modifier = Modifier.padding(16.dp)) {
+19         Text("Редагувати завдання", style = MaterialTheme.typography.headlineMedium)
+20 
+21         OutlinedTextField(value = name, onValueChange = { name = it }, label = { Text("Назва") })
+22         OutlinedTextField(value = description, onValueChange = { description = it }, label = { Text("Опис") })
+23         OutlinedTextField(
+24             value = numberOfParticipants,
+25             onValueChange = { numberOfParticipants = it },
+26             label = { Text("Кількість учасників") }
+27         )
+28 
+29         Spacer(modifier = Modifier.height(16.dp))
+30 
+31         Text("Статус", style = MaterialTheme.typography.titleMedium)
+32         Box {
+33             Text(
+34                 text = status.name,
+35                 modifier = Modifier
+36                     .clickable { statusExpanded = true }
+37                     .padding(12.dp)
+38                     .fillMaxWidth()
+39                     .border(
+40                         width = 1.dp,
+41                         color = MaterialTheme.colorScheme.outline,
+42                         shape = MaterialTheme.shapes.medium
+43                     ),
+44                 style = MaterialTheme.typography.bodyLarge
+45             )
+46             DropdownMenu(
+47                 expanded = statusExpanded,
+48                 onDismissRequest = { statusExpanded = false },
+49                 modifier = Modifier.heightIn(min = 160.dp)
+50             ) {
+51                 Status.values().forEach { stat ->
+52                     DropdownMenuItem(
+53                         modifier = Modifier.padding(horizontal = 16.dp),
+54                         text = { Text(text = stat.name) },
+55                         onClick = {
+56                             status = stat
+57                             statusExpanded = false
+58                         }
+59                     )
+60                 }
+61             }
+62         }
+63 
+64         Spacer(modifier = Modifier.height(16.dp))
+65 
+66         Text("Пріоритет", style = MaterialTheme.typography.titleMedium)
+67         Box {
+68             Text(
+69                 text = priority.name,
+70                 modifier = Modifier
+71                     .clickable { priorityExpanded = true }
+72                     .padding(12.dp)
+73                     .fillMaxWidth()
+74                     .border(
+75                         width = 1.dp,
+76                         color = MaterialTheme.colorScheme.outline,
+77                         shape = MaterialTheme.shapes.medium
+78                     ),
+79                 style = MaterialTheme.typography.bodyLarge
+80             )
+81             DropdownMenu(
+82                 expanded = priorityExpanded,
+83                 onDismissRequest = { priorityExpanded = false },
+84                 modifier = Modifier.heightIn(min = 160.dp)
+85             ) {
+86                 Priority.values().forEach { prio ->
+87                     DropdownMenuItem(
+88                         modifier = Modifier.padding(horizontal = 16.dp),
+89                         text = { Text(text = prio.name) },
+90                         onClick = {
+91                             priority = prio
+92                             priorityExpanded = false
+93                         }
+94                     )
+95                 }
+96             }
+97         }
+98 
+99         Spacer(modifier = Modifier.height(24.dp))
+100 
+101         Button(onClick = {
+102             assignment?.let {
+103                 viewModel.updateAssignment(
+104                     it.id,
+105                     name,
+106                     description,
+107                     numberOfParticipants.toIntOrNull() ?: 1,
+108                     status,
+109                     priority,
+110                     it.farmId
+111                 )
+112                 navController.popBackStack()
+113             }
+114         }) {
+115             Text("Зберегти")
+116         }
+117     }
+118 }
+В.3 Резервне копіювання користувацьких даних
+GitHub репозиторій: https://github.com/NurePetrenkoMariia/apz-pzpi-22-1-petrenko-mariia/blob/main/Lab4/pzpi-22-1-petrenko-mariia-lab4-code/app/src/main/java/com/farmkeeper/mobile/data/repository/AdminRepository.kt 
+1 package com.farmkeeper.mobile.data.repository
+2 
+3 import android.content.Context
+4 import kotlinx.coroutines.Dispatchers
+5 import okhttp3.MultipartBody
+6 import java.io.File
+7 import okhttp3.MediaType.Companion.toMediaType
+8 import okhttp3.RequestBody.Companion.asRequestBody
+9 import java.io.FileOutputStream
+10 import okhttp3.ResponseBody
+11 import kotlinx.coroutines.withContext
+12 
+13 class AdminRepository (private val api: AdminApi, private val context: Context){
+14     suspend fun createBackup(): Result<String> {
+15         return try {
+16             val token = "Bearer ${ApiProvider.authToken}"
+17             val response = api.createBackup(token)
+18 
+19             if (response.isSuccessful && response.body() != null) {
+20                 val body: ResponseBody = response.body()!!
+21                 withContext(Dispatchers.IO) {
+22                     val file = File(context.getExternalFilesDir(null), "DatabaseBackup.bak")
+23                     body.byteStream().use { input ->
+24                         FileOutputStream(file).use { output ->
+25                             input.copyTo(output)
+26                         }
+27                     }
+28                     Result.success("Бекап збережено: ${file.absolutePath}")
+29                 }
+30             } else {
+31                 Result.failure(Exception("Помилка: ${response.code()}"))
+32             }
+33         } catch (e: Exception) {
+34             Result.failure(e)
+35         }
+36     }
+37 
+38     suspend fun restoreBackup(file: File): Result<String> {
+39         return try {
+40             val token = "Bearer ${ApiProvider.authToken}"
+41             val requestBody = file.asRequestBody("application/octet-stream".toMediaType())
+42             val part = MultipartBody.Part.createFormData("backupFile", file.name, requestBody)
+43             val response = api.restoreBackup(part, token)
+44             if (response.isSuccessful) {
+45                 Result.success("Успішно відновлено")
+46             } else {
+47                 Result.failure(Exception("Помилка: ${response.code()}"))
+48             }
+49         } catch (e: Exception) {
+50             Result.failure(e)
+51         }
+52     }
+53 }
+
+
+
+
+
+      
+      
+      15
+      
+      
