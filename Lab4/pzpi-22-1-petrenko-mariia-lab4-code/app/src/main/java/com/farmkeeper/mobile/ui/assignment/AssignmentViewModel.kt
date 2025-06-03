@@ -23,21 +23,6 @@ class AssignmentViewModel(private val repository: AssignmentRepository) : ViewMo
 
     private var farmIdForUser: String? = null
 
-   /* fun getFarmIdForUser(): String? = farmIdForUser
-
-    fun setFarmIdForUser(farmId: String) {
-        farmIdForUser = farmId
-    }
-
-    fun loadAssignments() {
-        viewModelScope.launch {
-            val result = repository.getAssignments()
-            if (result.isSuccess) {
-                _assignments.value = result.getOrDefault(emptyList())
-            }
-        }
-    }*/
-
     fun loadAssignmentsByFarm(farmId: String) {
         viewModelScope.launch {
             val result = repository.getAssignmentsByFarm(farmId)
